@@ -1,0 +1,48 @@
+// Html code
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title> Guvi </title>
+    </head>
+    <body>
+        <div id="root"> </div>
+        <script src="script.js"></script>
+    </body>
+</html>
+
+//JS code
+//create a request variable
+var request= new XMLHttpRequest();
+
+
+// open the request
+request.open('GET','https://restcountries.eu/rest/v2/all',true);
+
+//send the request
+request.send();
+
+//load the response
+request.onload= function(){
+    var data = JSON.parse(this.response)
+    for(i=0;i<data.length;i++)
+    {
+        var lat1 = data[i]["latlng"]["0"];
+        var long1= data[i]["latlng"]["1"];
+        var request2 = new XMLHttpRequest();
+
+
+        // open the request
+        request2.open('GET', 'http://api.openweathermap.org/data/2.5/weather?lat=' + lat1 + '&lon=' + long1 + '&appid=a2c2351d112b20438ee4e4d1971f07b6', true);
+
+        //send the request
+        request2.send();
+
+        //load the response
+        request2.onload = function () {
+            var data1 = JSON.parse(this.response)
+            console.log(data1["main"]["temp"]);
+        }
+
+        }
+    }
+    
